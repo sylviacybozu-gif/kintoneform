@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>自製漂亮表單</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7f7f7; }
+    form { max-width:500px; margin:50px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    label { display:block; margin-top:15px; font-weight:bold; }
+    input, select, button { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:5px; }
+    button { background:#4CAF50; color:white; border:none; cursor:pointer; }
+    button:hover { background:#45a049; }
+  </style>
+</head>
+<body>
+  <form id="myForm">
+    <h2>上班族的健康三重奏</h2>
+    <label>姓名</label>
+    <input type="text" name="entry.477789905" required>
+
+    <label>Email</label>
+    <input type="email" name="entry.2140412764" required>
+
+    <label>手機</label>
+    <input type="text" name="entry.122936605" required>
+
+    <label>年齡層</label>
+    <select name="entry.2132072135" required>
+      <option value="20-29">20-29</option>
+      <option value="30-39">30-39</option>
+      <option value="40-49">40-49</option>
+      <option value="50+">50+</option>
+    </select>
+
+    <label>希望優先改善問題</label>
+    <select name="entry.1343749178">
+      <option value="專注提升">專注提升</option>
+      <option value="體態管理">體態管理</option>
+      <option value="睡眠放鬆">睡眠放鬆</option>
+    </select>
+
+    <label>希望優先上市的產品</label>
+    <select name="entry.252011526">
+      <option value="勤通專注飲">勤通專注飲</option>
+      <option value="輕tone代謝膠囊">輕tone代謝膠囊</option>
+      <option value="勤通專注飲">勤通專注飲</option>
+    </select>
+
+    <button type="submit">送出</button>
+  </form>
+
+  <script>
+  document.getElementById("myForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse", {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    }).then(() => {
+      alert("提交成功！");
+    }).catch(() => {
+      alert("提交失敗，請再試一次");
+    });
+  });
+  </script>
+</body>
+</html>

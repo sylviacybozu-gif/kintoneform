@@ -4,17 +4,67 @@
   <meta charset="UTF-8">
   <title>自製漂亮表單</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#f7f7f7; }
-    form { max-width:500px; margin:50px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
-    label { display:block; margin-top:15px; font-weight:bold; }
-    input, select, button { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:5px; }
-    button { background:#4CAF50; color:white; border:none; cursor:pointer; }
-    button:hover { background:#45a049; }
+    body { 
+      font-family: "Microsoft JhengHei", Arial, sans-serif; 
+      background:#fdfdfd; 
+    }
+    form { 
+      max-width:500px; 
+      margin:30px auto; 
+      padding:20px; 
+      background:#fff; 
+      border-radius:12px; 
+      box-shadow:0 0 15px rgba(0,0,0,0.1); 
+      color:#2c3e50; /* 整體文字顏色 */
+    }
+    h2 {
+      text-align:center; 
+      color:#e67e22; /* 水果橘色 */
+      margin-bottom: 15px;
+    }
+    label { 
+      display:block; 
+      margin-top:15px; 
+      font-weight:bold; 
+      color:#27ae60; /* 偏綠色，呼應水果清新 */
+    }
+    input, select, button { 
+      width:100%; 
+      padding:10px; 
+      margin-top:5px; 
+      border:1px solid #ccc; 
+      border-radius:6px; 
+      font-size:14px;
+    }
+    button { 
+      background:#e67e22; /* 橘色按鈕 */
+      color:white; 
+      border:none; 
+      cursor:pointer; 
+      font-size:16px; 
+      font-weight:bold;
+      margin-top:20px;
+    }
+    button:hover { 
+      background:#d35400; 
+    }
+    .banner {
+      width:100%; 
+      height:auto; 
+      border-radius:12px; 
+      margin-bottom:20px;
+    }
   </style>
 </head>
 <body>
   <form id="myForm">
+    <!-- 新增圖片 Banner -->
+    <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+         alt="健康水果拼盤" 
+         class="banner">
+
     <h2>上班族的健康三重奏</h2>
+
     <label>姓名</label>
     <input type="text" name="entry.477789905" required>
 
@@ -43,7 +93,7 @@
     <select name="entry.252011526">
       <option value="勤通專注飲">勤通專注飲</option>
       <option value="輕tone代謝膠囊">輕tone代謝膠囊</option>
-      <option value="勤通專注飲">勤通專注飲</option>
+      <option value="安tone舒眠飲">安tone舒眠飲</option>
     </select>
 
     <button type="submit">送出</button>

@@ -4,66 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>上班族的健康三重奏問卷</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    body { 
-      font-family:"Microsoft JhengHei",Arial,sans-serif; 
-      background:#fafafa;  /* 淡米白 */
-      margin:0; padding:0;
-    }
-    form { 
-      max-width:520px; margin:30px auto; padding:25px; background:#fff; 
-      border-radius:16px; border:2px solid #c8e6c9; /* 淡綠邊框 */
-      box-shadow:0 4px 18px rgba(0,0,0,0.08); color:#333;
-    }
-    .banner-wrapper {
-      position: relative;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .banner-wrapper img {
-      width: 100%;
-      display: block;
-    }
-    .banner-wrapper::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(90deg, rgba(230,126,34,0.4), rgba(102,187,106,0.4));
-    }
-    h2 { 
-      text-align:center; color:#e67e22; margin-bottom: 18px;
-    }
-    label { 
-      display:block; margin-top:15px; font-weight:bold; color:#2e7d32;
-    }
-    input, select, button { 
-      width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; 
-      border-radius:8px; font-size:15px; box-sizing:border-box;
-    }
-    input:focus, select:focus {
-      border-color:#81c784; outline:none;
-      box-shadow:0 0 5px rgba(129,199,132,0.6);
-    }
-    button { 
-      background:linear-gradient(90deg,#e67e22,#66bb6a); 
-      color:white; border:none; cursor:pointer; 
-      font-size:16px; font-weight:bold; margin-top:22px; padding:12px;
-      transition:0.3s;
-    }
-    button:hover { 
-      background:linear-gradient(90deg,#d35400,#388e3c);
-    }
-    .success-message {
-      text-align:center; color:#2e7d32; font-weight:bold; 
-      margin-top:20px; display:none;
-    }
+    body { font-family:"Microsoft JhengHei",Arial,sans-serif; background:#fafafa; margin:0; padding:0; }
+    form { max-width:520px; margin:30px auto; padding:25px; background:#fff; border-radius:16px; border:2px solid #c8e6c9; box-shadow:0 4px 18px rgba(0,0,0,0.08); color:#333; }
+    .banner-wrapper { position:relative; width:100%; border-radius:16px; overflow:hidden; margin-bottom:20px; }
+    .banner-wrapper img { width:100%; display:block; }
+    h2 { text-align:center; color:#e67e22; margin-bottom:18px; }
+    label { display:block; margin-top:15px; font-weight:bold; color:#2e7d32; }
+    input, select, button { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:8px; font-size:15px; box-sizing:border-box; }
+    button { background:linear-gradient(90deg,#e67e22,#66bb6a); color:white; border:none; cursor:pointer; font-size:16px; font-weight:bold; margin-top:22px; padding:12px; transition:0.3s; }
+    button:hover { background:linear-gradient(90deg,#d35400,#388e3c); }
+    .success-message { text-align:center; color:#2e7d32; font-weight:bold; margin-top:20px; display:none; }
   </style>
 </head>
 <body>
   <form id="myForm">
-    <!-- 新圖片 Banner + 遮罩 -->
     <div class="banner-wrapper">
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
            alt="水果與蔬菜背景">
@@ -110,24 +66,25 @@
   </form>
 
   <script>
-  document.getElementById("myForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    const form = this;
-    const formData = new FormData(form);
-
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse", {
-      method: "POST",
-      body: formData,
-      mode: "no-cors"
-    }).then(() => {
-      form.reset();
-      const msg = document.getElementById("successMsg");
-      msg.style.display = "block";
-      setTimeout(() => { msg.style.display = "none"; }, 3000);
-    }).catch(() => {
-      alert("提交失敗，請再試一次");
+    $("#myForm").submit(function(e){
+      e.preventDefault(); // 防止原生跳轉
+      $.ajax({
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse",
+        data: $(this).serialize(),
+        type: "POST",
+        dataType: "xml",
+        statusCode: {
+          0: function (){
+            $("#myForm")[0].reset();
+            $("#successMsg").fadeIn().delay(3000).fadeOut();
+          },
+          200: function (){
+            $("#myForm")[0].reset();
+            $("#successMsg").fadeIn().delay(3000).fadeOut();
+          }
+        }
+      });
     });
-  });
   </script>
 </body>
 </html>

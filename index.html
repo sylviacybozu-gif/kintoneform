@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>上班族的健康三重奏問卷</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     body { font-family:"Microsoft JhengHei",Arial,sans-serif; background:#fafafa; margin:0; padding:0; }
     form { max-width:520px; margin:30px auto; padding:25px; background:#fff; border-radius:16px; border:2px solid #c8e6c9; box-shadow:0 4px 18px rgba(0,0,0,0.08); color:#333; }
@@ -19,7 +18,15 @@
   </style>
 </head>
 <body>
-  <form id="myForm">
+  <!-- hidden iframe，避免跳轉 -->
+  <iframe name="hidden_iframe" style="display:none;" onload="if(submitted){ showSuccess(); }"></iframe>
+
+  <form id="myForm" 
+        action="https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse"
+        method="POST" 
+        target="hidden_iframe"
+        onsubmit="submitted=true;">
+
     <div class="banner-wrapper">
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
            alt="水果與蔬菜背景">
@@ -66,25 +73,17 @@
   </form>
 
   <script>
-    $("#myForm").submit(function(e){
-      e.preventDefault(); // 防止原生跳轉
-      $.ajax({
-        url: "https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse",
-        data: $(this).serialize(),
-        type: "POST",
-        dataType: "xml",
-        statusCode: {
-          0: function (){
-            $("#myForm")[0].reset();
-            $("#successMsg").fadeIn().delay(3000).fadeOut();
-          },
-          200: function (){
-            $("#myForm")[0].reset();
-            $("#successMsg").fadeIn().delay(3000).fadeOut();
-          }
-        }
-      });
-    });
+    var submitted = false;
+    function showSuccess(){
+      if(submitted){
+        document.getElementById("myForm").reset();
+        document.getElementById("successMsg").style.display = "block";
+        setTimeout(function(){
+          document.getElementById("successMsg").style.display = "none";
+        }, 3000);
+        submitted = false; // 重置狀態
+      }
+    }
   </script>
 </body>
 </html>

@@ -60,10 +60,12 @@
   </style>
 </head>
 <body>
-  <form id="myForm">
+  <form action="https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse" 
+        method="POST" target="_self">
+    
     <!-- 新圖片 Banner -->
-    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-         alt="清新筆記風格背景" 
+    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+         alt="清新文字背景" 
          class="banner">
 
     <h2>上班族的健康三重奏</h2>
@@ -101,21 +103,6 @@
 
     <button type="submit">送出</button>
   </form>
-
-  <script>
-  document.getElementById("myForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    const formData = new FormData(this);
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse", {
-      method: "POST",
-      body: formData,
-      mode: "no-cors"
-    }).then(() => {
-      alert("提交成功！");
-    }).catch(() => {
-      alert("提交失敗，請再試一次");
-    });
-  });
-  </script>
 </body>
 </html>
+

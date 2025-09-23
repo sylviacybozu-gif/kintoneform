@@ -7,7 +7,7 @@
   <style>
     body { 
       font-family: "Microsoft JhengHei", Arial, sans-serif; 
-      background:#fdfdfd; 
+      background:#fffaf5;  /* 番茄淡橘底 */
       margin:0; 
       padding:0;
     }
@@ -18,7 +18,7 @@
       background:#fff; 
       border-radius:12px; 
       box-shadow:0 0 15px rgba(0,0,0,0.08); 
-      color:#444; /* 深灰字體 */
+      color:#333;
     }
     .banner {
       width:100%; 
@@ -28,14 +28,14 @@
     }
     h2 {
       text-align:center; 
-      color:#2e5d50; /* 墨綠標題 */
+      color:#d35400; /* 番茄紅 */
       margin-bottom: 15px;
     }
     label { 
       display:block; 
       margin-top:15px; 
       font-weight:bold; 
-      color:#444; /* 深灰 */
+      color:#2e5d50; /* 橄欖綠 */
     }
     input, select, button { 
       width:100%; 
@@ -46,7 +46,7 @@
       font-size:14px;
     }
     button { 
-      background:#e67e22; /* 橘色按鈕 */
+      background:#d35400; /* 番茄紅 */
       color:white; 
       border:none; 
       cursor:pointer; 
@@ -55,17 +55,22 @@
       margin-top:20px;
     }
     button:hover { 
-      background:#d35400; 
+      background:#a63c00; /* 深番茄紅 */
+    }
+    .success-message {
+      text-align:center;
+      color:#2e5d50;
+      font-weight:bold;
+      margin-top:20px;
+      display:none;
     }
   </style>
 </head>
 <body>
-  <form action="https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse" 
-        method="POST" target="_self">
-    
+  <form id="myForm">
     <!-- 新圖片 Banner -->
-    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-         alt="清新文字背景" 
+    <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+         alt="番茄桌面背景" 
          class="banner">
 
     <h2>上班族的健康三重奏</h2>
@@ -81,6 +86,7 @@
 
     <label>年齡層</label>
     <select name="entry.2132072135" required>
+      <option value="">請選擇</option>
       <option value="20-29">20-29</option>
       <option value="30-39">30-39</option>
       <option value="40-49">40-49</option>
@@ -102,7 +108,31 @@
     </select>
 
     <button type="submit">送出</button>
+    <div class="success-message" id="successMsg">✅ 提交成功，感謝填寫！</div>
   </form>
+
+  <script>
+  document.getElementById("myForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse", {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    }).then(() => {
+      form.reset();
+      const msg = document.getElementById("successMsg");
+      msg.style.display = "block";
+      setTimeout(() => {
+        msg.style.display = "none";
+      }, 3000); // 3秒後隱藏
+    }).catch(() => {
+      alert("提交失敗，請再試一次");
+    });
+  });
+  </script>
 </body>
 </html>
 

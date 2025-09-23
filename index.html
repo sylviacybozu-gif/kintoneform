@@ -13,23 +13,22 @@
     label { display:block; margin-top:15px; font-weight:bold; color:#2e7d32; }
     input, select, button { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:8px; font-size:15px; box-sizing:border-box; }
     button { background:linear-gradient(90deg,#e67e22,#66bb6a); color:white; border:none; cursor:pointer; font-size:16px; font-weight:bold; margin-top:22px; padding:12px; transition:0.3s; }
+    button[disabled] { opacity: .6; cursor: not-allowed; }
     button:hover { background:linear-gradient(90deg,#d35400,#388e3c); }
     .success-message { text-align:center; color:#2e7d32; font-weight:bold; margin-top:20px; display:none; }
   </style>
 </head>
 <body>
   <!-- hidden iframe，避免跳轉 -->
-  <iframe name="hidden_iframe" style="display:none;" onload="if(submitted){ showSuccess(); }"></iframe>
+  <iframe name="hidden_iframe" style="display:none;" onload="if(window.__submitted){ handleSubmitted(); }"></iframe>
 
-  <form id="myForm" 
+  <form id="myForm"
         action="https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse"
-        method="POST" 
-        target="hidden_iframe"
-        onsubmit="submitted=true;">
+        method="POST" target="hidden_iframe" accept-charset="UTF-8"
+        onsubmit="window.__submitted=true; disableBtn();">
 
     <div class="banner-wrapper">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-           alt="水果與蔬菜背景">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="水果與蔬菜背景">
     </div>
 
     <h2>上班族的健康三重奏</h2>
@@ -68,21 +67,27 @@
       <option value="安tone舒眠飲">安tone舒眠飲</option>
     </select>
 
-    <button type="submit">送出</button>
+    <button id="submitBtn" type="submit">送出</button>
     <div class="success-message" id="successMsg">✅ 提交成功，感謝填寫！</div>
   </form>
 
   <script>
-    var submitted = false;
-    function showSuccess(){
-      if(submitted){
-        document.getElementById("myForm").reset();
-        document.getElementById("successMsg").style.display = "block";
-        setTimeout(function(){
-          document.getElementById("successMsg").style.display = "none";
-        }, 3000);
-        submitted = false; // 重置狀態
-      }
+    function disableBtn(){
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '送出中…';
+    }
+    function handleSubmitted(){
+      if(!window.__submitted) return;
+      window.__submitted = false;
+      var form = document.getElementById('myForm');
+      form.reset();
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = false;
+      btn.textContent = '送出';
+      var msg = document.getElementById('successMsg');
+      msg.style.display = 'block';
+      setTimeout(function(){ msg.style.display = 'none'; }, 3000);
     }
   </script>
 </body>

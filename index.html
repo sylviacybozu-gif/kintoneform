@@ -6,72 +6,68 @@
   <title>上班族的健康三重奏問卷</title>
   <style>
     body { 
-      font-family: "Microsoft JhengHei", Arial, sans-serif; 
-      background:#fffaf5;  /* 番茄淡橘底 */
-      margin:0; 
-      padding:0;
+      font-family:"Microsoft JhengHei",Arial,sans-serif; 
+      background:#fafafa;  /* 淡米白 */
+      margin:0; padding:0;
     }
     form { 
-      max-width:500px; 
-      margin:30px auto; 
-      padding:20px; 
-      background:#fff; 
-      border-radius:12px; 
-      box-shadow:0 0 15px rgba(0,0,0,0.08); 
-      color:#333;
+      max-width:520px; margin:30px auto; padding:25px; background:#fff; 
+      border-radius:16px; border:2px solid #c8e6c9; /* 淡綠邊框 */
+      box-shadow:0 4px 18px rgba(0,0,0,0.08); color:#333;
     }
-    .banner {
-      width:100%; 
-      height:auto; 
-      border-radius:12px; 
-      margin-bottom:20px;
+    .banner-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
     }
-    h2 {
-      text-align:center; 
-      color:#d35400; /* 番茄紅 */
-      margin-bottom: 15px;
+    .banner-wrapper img {
+      width: 100%;
+      display: block;
+    }
+    .banner-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, rgba(230,126,34,0.4), rgba(102,187,106,0.4));
+    }
+    h2 { 
+      text-align:center; color:#e67e22; margin-bottom: 18px;
     }
     label { 
-      display:block; 
-      margin-top:15px; 
-      font-weight:bold; 
-      color:#2e5d50; /* 橄欖綠 */
+      display:block; margin-top:15px; font-weight:bold; color:#2e7d32;
     }
     input, select, button { 
-      width:100%; 
-      padding:10px; 
-      margin-top:5px; 
-      border:1px solid #ccc; 
-      border-radius:6px; 
-      font-size:14px;
+      width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; 
+      border-radius:8px; font-size:15px; box-sizing:border-box;
+    }
+    input:focus, select:focus {
+      border-color:#81c784; outline:none;
+      box-shadow:0 0 5px rgba(129,199,132,0.6);
     }
     button { 
-      background:#d35400; /* 番茄紅 */
-      color:white; 
-      border:none; 
-      cursor:pointer; 
-      font-size:16px; 
-      font-weight:bold;
-      margin-top:20px;
+      background:linear-gradient(90deg,#e67e22,#66bb6a); 
+      color:white; border:none; cursor:pointer; 
+      font-size:16px; font-weight:bold; margin-top:22px; padding:12px;
+      transition:0.3s;
     }
     button:hover { 
-      background:#a63c00; /* 深番茄紅 */
+      background:linear-gradient(90deg,#d35400,#388e3c);
     }
     .success-message {
-      text-align:center;
-      color:#2e5d50;
-      font-weight:bold;
-      margin-top:20px;
-      display:none;
+      text-align:center; color:#2e7d32; font-weight:bold; 
+      margin-top:20px; display:none;
     }
   </style>
 </head>
 <body>
   <form id="myForm">
-    <!-- 新圖片 Banner -->
-    <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-         alt="番茄桌面背景" 
-         class="banner">
+    <!-- 新圖片 Banner + 遮罩 -->
+    <div class="banner-wrapper">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+           alt="水果與蔬菜背景">
+    </div>
 
     <h2>上班族的健康三重奏</h2>
 
@@ -94,14 +90,16 @@
     </select>
 
     <label>希望優先改善問題</label>
-    <select name="entry.1343749178">
+    <select name="entry.1343749178" required>
+      <option value="">請選擇</option>
       <option value="專注提升">專注提升</option>
       <option value="體態管理">體態管理</option>
       <option value="睡眠放鬆">睡眠放鬆</option>
     </select>
 
     <label>希望優先上市的產品</label>
-    <select name="entry.252011526">
+    <select name="entry.252011526" required>
+      <option value="">請選擇</option>
       <option value="勤通專注飲">勤通專注飲</option>
       <option value="輕tone代謝膠囊">輕tone代謝膠囊</option>
       <option value="安tone舒眠飲">安tone舒眠飲</option>
@@ -125,9 +123,7 @@
       form.reset();
       const msg = document.getElementById("successMsg");
       msg.style.display = "block";
-      setTimeout(() => {
-        msg.style.display = "none";
-      }, 3000); // 3秒後隱藏
+      setTimeout(() => { msg.style.display = "none"; }, 3000);
     }).catch(() => {
       alert("提交失敗，請再試一次");
     });

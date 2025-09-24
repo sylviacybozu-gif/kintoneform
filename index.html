@@ -19,14 +19,8 @@
   </style>
 </head>
 <body>
-  <!-- hidden iframe，避免跳轉 -->
-  <iframe name="hidden_iframe" style="display:none;" onload="if(window.__submitted){ handleSubmitted(); }"></iframe>
 
-  <form id="myForm"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse"
-        method="POST" target="hidden_iframe" accept-charset="UTF-8"
-        onsubmit="window.__submitted=true; disableBtn();">
-
+  <form id="myForm">
     <div class="banner-wrapper">
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="水果與蔬菜背景">
     </div>
@@ -71,24 +65,46 @@
     <div class="success-message" id="successMsg">✅ 提交成功，感謝填寫！</div>
   </form>
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    function disableBtn(){
-      var btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = '送出中…';
-    }
-    function handleSubmitted(){
-      if(!window.__submitted) return;
-      window.__submitted = false;
-      var form = document.getElementById('myForm');
-      form.reset();
-      var btn = document.getElementById('submitBtn');
-      btn.disabled = false;
-      btn.textContent = '送出';
-      var msg = document.getElementById('successMsg');
-      msg.style.display = 'block';
-      setTimeout(function(){ msg.style.display = 'none'; }, 3000);
-    }
+    $('#myForm').on('submit', function(e){
+      e.preventDefault(); // 阻止原生表單送出
+
+      var btn = $('#submitBtn');
+      btn.prop('disabled', true).text('送出中…');
+
+      var data = {
+        "entry.477789905": $('input[name="entry.477789905"]').val(),
+        "entry.2140412764": $('input[name="entry.2140412764"]').val(),
+        "entry.122936605": $('input[name="entry.122936605"]').val(),
+        "entry.2132072135": $('select[name="entry.2132072135"]').val(),
+        "entry.1343749178": $('select[name="entry.1343749178"]').val(),
+        "entry.252011526": $('select[name="entry.252011526"]').val()
+      };
+
+      $.ajax({
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSdi23mCy1ArVnTzfG7IPIuNTW8u4IGsW86aBO3KNwjG-KO21w/formResponse",
+        type: "POST",
+        data: data,
+        dataType: "xml",
+        statusCode: {
+          0: function(){
+            showSuccess();
+          },
+          200: function(){
+            showSuccess();
+          }
+        }
+      });
+
+      function showSuccess(){
+        $('#myForm')[0].reset();
+        btn.prop('disabled', false).text('送出');
+        $('#successMsg').fadeIn();
+        setTimeout(function(){ $('#successMsg').fadeOut(); }, 3000);
+      }
+    });
   </script>
 </body>
 </html>
